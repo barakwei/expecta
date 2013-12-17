@@ -9,7 +9,7 @@ EXPMatcherImplementationBegin(raise, (NSString *expectedExceptionName)) {
     @try {
       ((EXPBasicBlock)actual)();
     } @catch(NSException *e) {
-      exceptionCaught = e;
+      exceptionCaught = [e copy];
       expectedExceptionCaught = (expectedExceptionName == nil) || [[exceptionCaught name] isEqualToString:expectedExceptionName];
     }
     return expectedExceptionCaught;
