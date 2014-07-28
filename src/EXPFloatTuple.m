@@ -33,6 +33,8 @@
 - (NSString *)description {
     if (self.size == 2) {
         return [NSString stringWithFormat:@"Float tuple: {%f, %f}", self.values[0], self.values[1]];
+    } else if (self.size == 3) {
+      return [NSString stringWithFormat:@"Float tuple: {%f, %f, %f}", self.values[0], self.values[1], self.values[2]];
     } else if (self.size == 4) {
         return [NSString stringWithFormat:@"Float tuple: {%f, %f, %f, %f}", self.values[0], self.values[1], self.values[2], self.values[3]];
     }

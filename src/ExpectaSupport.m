@@ -79,6 +79,8 @@ id _EXPObjectify(const char *type, ...) {
     obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[4]) size:4] autorelease];
   } else if(strstr(type, "=ff}") != NULL) {
     obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[2]) size:2] autorelease];
+  } else if(strstr(type, "=fff}") != NULL) {
+    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[3]) size:3] autorelease];
   } else if(strstr(type, "=ffff}") != NULL) {
     obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[4]) size:4] autorelease];
   } else if(strstr(type, "dd}{") != NULL) { //TODO: same here
