@@ -876,7 +876,7 @@
 		E9ACDF0313B2DD520010F4D7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastTestingUpgradeCheck = 0600;
+				LastTestingUpgradeCheck = 0610;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "Peter Jihoon Kim";
 			};
