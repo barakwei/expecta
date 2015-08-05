@@ -28,6 +28,7 @@
 @property(nonatomic, readonly) EXPExpect *willNot;
 @property(nonatomic, readonly) EXPExpect *(^after)(NSTimeInterval timeInterval);
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithActualBlock:(id)actualBlock testCase:(id)testCase lineNumber:(int)lineNumber fileName:(const char *)fileName NS_DESIGNATED_INITIALIZER;
 + (EXPExpect *)expectWithActualBlock:(id)actualBlock testCase:(id)testCase lineNumber:(int)lineNumber fileName:(const char *)fileName;
 
@@ -40,6 +41,10 @@
   EXPExpect *_expectation;
   SEL _selector;
 }
-- (instancetype)initWithExpectation:(EXPExpect *)expectation selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
+
 @property (nonatomic, readonly, copy) void (^dispatch)(void);
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithExpectation:(EXPExpect *)expectation selector:(SEL)selector NS_DESIGNATED_INITIALIZER;
+
 @end

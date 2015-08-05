@@ -8,6 +8,7 @@
 @property (nonatomic, assign) double *values;
 @property (nonatomic, assign) size_t size;
 
+- (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithDoubleValues:(double *)values size:(size_t)size NS_DESIGNATED_INITIALIZER;
 
 @end
