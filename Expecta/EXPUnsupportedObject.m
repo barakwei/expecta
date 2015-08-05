@@ -4,6 +4,10 @@
 
 @synthesize type=_type;
 
+- (instancetype)init {
+  return nil;
+}
+
 - (instancetype)initWithType:(NSString *)type {
   self = [super init];
   if(self) {

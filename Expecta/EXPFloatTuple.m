@@ -4,6 +4,10 @@
 
 @synthesize values = _values, size = _size;
 
+- (instancetype)init {
+  return nil;
+}
+
 - (instancetype)initWithFloatValues:(float *)values size:(size_t)size {
     if ((self = [super init])) {
         self.values = malloc(sizeof(float) * size);

@@ -26,6 +26,10 @@
   lineNumber=_lineNumber,
   fileName=_fileName;
 
+- (instancetype)init {
+  return nil;
+}
+
 - (instancetype)initWithActualBlock:(id)actualBlock testCase:(id)testCase lineNumber:(int)lineNumber fileName:(const char *)fileName {
   self = [super init];
   if(self) {
@@ -178,6 +182,10 @@
 @end
 
 @implementation EXPDynamicPredicateMatcher
+
+- (instancetype)init {
+  return nil;
+}
 
 - (instancetype)initWithExpectation:(EXPExpect *)expectation selector:(SEL)selector
 {
