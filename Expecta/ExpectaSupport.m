@@ -6,6 +6,7 @@
 #import "EXPDoubleTuple.h"
 #import "EXPDefines.h"
 #import <objc/runtime.h>
+#import <stdatomic.h>
 
 @interface NSObject (ExpectaXCTestRecordFailure)
 
@@ -14,75 +15,56 @@
 
 @end
 
-id _EXPObjectify(const char *type, ...) {
-  va_list v;
-  va_start(v, type);
+id _EXPObjectify(const char *type, void *value) {
   id obj = nil;
-  if(strcmp(type, @encode(char)) == 0) {
-    char actual = (char)va_arg(v, int);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(_Bool)) == 0) {
-    _Static_assert(sizeof(_Bool) <= sizeof(int), "Expected _Bool to be subject to vararg type promotion");
-    _Bool actual = (_Bool)va_arg(v, int);
-    obj = @(actual);
+  if(strcmp(type, @encode(char)) == 0 || strcmp(type, @encode(atomic_char)) == 0) {
+    obj = @(*(char *)value);
+  } else if(strcmp(type, @encode(_Bool)) == 0 || strcmp(type, @encode(atomic_bool)) == 0) {
+    obj = @(*(_Bool *)value);
   } else if(strcmp(type, @encode(double)) == 0) {
-    double actual = (double)va_arg(v, double);
-    obj = @(actual);
+    obj = @(*(double *)value);
   } else if(strcmp(type, @encode(float)) == 0) {
-    float actual = (float)va_arg(v, double);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(int)) == 0) {
-    int actual = (int)va_arg(v, int);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(long)) == 0) {
-    long actual = (long)va_arg(v, long);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(long long)) == 0) {
-    long long actual = (long long)va_arg(v, long long);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(short)) == 0) {
-    short actual = (short)va_arg(v, int);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(unsigned char)) == 0) {
-    unsigned char actual = (unsigned char)va_arg(v, unsigned int);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(unsigned int)) == 0) {
-    unsigned int actual = (int)va_arg(v, unsigned int);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(unsigned long)) == 0) {
-    unsigned long actual = (unsigned long)va_arg(v, unsigned long);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(unsigned long long)) == 0) {
-    unsigned long long actual = (unsigned long long)va_arg(v, unsigned long long);
-    obj = @(actual);
-  } else if(strcmp(type, @encode(unsigned short)) == 0) {
-    unsigned short actual = (unsigned short)va_arg(v, unsigned int);
-    obj = @(actual);
+    obj = @(*(float *)value);
+  } else if(strcmp(type, @encode(int)) == 0 || strcmp(type, @encode(atomic_int)) == 0) {
+    obj = @(*(int *)value);
+  } else if(strcmp(type, @encode(long)) == 0 || strcmp(type, @encode(atomic_long)) == 0) {
+    obj = @(*(long *)value);
+  } else if(strcmp(type, @encode(long long)) == 0 || strcmp(type, @encode(atomic_llong)) == 0) {
+    obj = @(*(long long *)value);
+  } else if(strcmp(type, @encode(short)) == 0 || strcmp(type, @encode(atomic_short)) == 0) {
+    obj = @(*(int *)value);
+  } else if(strcmp(type, @encode(unsigned char)) == 0 || strcmp(type, @encode(atomic_uchar)) == 0) {
+    obj = @(*(unsigned char *)value);
+  } else if(strcmp(type, @encode(unsigned int)) == 0 || strcmp(type, @encode(atomic_uint)) == 0) {
+    obj = @(*(unsigned int *)value);
+  } else if(strcmp(type, @encode(unsigned long)) == 0 || strcmp(type, @encode(atomic_ulong)) == 0) {
+    obj = @(*(unsigned long *)value);
+  } else if(strcmp(type, @encode(unsigned long long)) == 0 || strcmp(type, @encode(atomic_ullong)) == 0) {
+    obj = @(*(unsigned long long *)value);
+  } else if(strcmp(type, @encode(unsigned short)) == 0 || strcmp(type, @encode(atomic_ushort)) == 0) {
+    obj = @(*(unsigned short *)value);
   } else if(strstr(type, @encode(EXPBasicBlock)) != NULL) {
       // @encode(EXPBasicBlock) returns @? as of clang 4.1.
       // This condition must occur before the test for id/class type,
       // otherwise blocks will be treated as vanilla objects.
-      id actual = va_arg(v, EXPBasicBlock);
+      id actual = *(EXPBasicBlock *)value;
       obj = [[actual copy] autorelease];
   } else if((strstr(type, @encode(id)) != NULL) || (strstr(type, @encode(Class)) != 0)) {
-    id actual = va_arg(v, id);
-    obj = actual;
+    obj = *(id *)value;
   } else if(strcmp(type, @encode(__typeof__(nil))) == 0) {
     obj = nil;
-  } else if(strstr(type, "ff}{") != NULL) { //TODO: of course this only works for a 2x2 e.g. CGRect
-    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[4]) size:4] autorelease];
-  } else if(strstr(type, "=ff}") != NULL) {
-    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[2]) size:2] autorelease];
-  } else if(strstr(type, "=fff}") != NULL) {
-    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[3]) size:3] autorelease];
-  } else if(strstr(type, "=ffff}") != NULL) {
-    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)va_arg(v, float[4]) size:4] autorelease];
-  } else if(strstr(type, "dd}{") != NULL) { //TODO: same here
-    obj = [[[EXPDoubleTuple alloc] initWithDoubleValues:(double *)va_arg(v, double[4]) size:4] autorelease];
-  } else if(strstr(type, "=dd}") != NULL) {
-    obj = [[[EXPDoubleTuple alloc] initWithDoubleValues:(double *)va_arg(v, double[2]) size:2] autorelease];
-  } else if(strstr(type, "=dddd}") != NULL) {
-    obj = [[[EXPDoubleTuple alloc] initWithDoubleValues:(double *)va_arg(v, double[4]) size:4] autorelease];
+  } else if(strstr(type, "ff}{") != NULL || strstr(type, "=ff}") != NULL ||
+            strstr(type, "=fff}") != NULL || strstr(type, "=ffff}") != NULL) {
+    NSUInteger size;
+    NSGetSizeAndAlignment(type, &size, NULL);
+    obj = [[[EXPFloatTuple alloc] initWithFloatValues:(float *)value
+                                                 size:size / sizeof(float)] autorelease];
+  } else if(strstr(type, "dd}{") != NULL || strstr(type, "=dd}") != NULL ||
+            strstr(type, "=ddd}") != NULL || strstr(type, "=dddd}") != NULL) {
+    NSUInteger size;
+    NSGetSizeAndAlignment(type, &size, NULL);
+    obj = [[[EXPDoubleTuple alloc] initWithDoubleValues:(double *)value
+                                                   size:size / sizeof(double)] autorelease];
   } else if(type[0] == '{') {
     EXPUnsupportedObject *actual = [[[EXPUnsupportedObject alloc] initWithType:@"struct"] autorelease];
     obj = actual;
@@ -90,13 +72,12 @@ id _EXPObjectify(const char *type, ...) {
     EXPUnsupportedObject *actual = [[[EXPUnsupportedObject alloc] initWithType:@"union"] autorelease];
     obj = actual;
   } else {
-    void *actual = va_arg(v, void *);
-    obj = (actual == NULL ? nil :[NSValue valueWithPointer:actual]);
+    void *actual = *(void **)value;
+    obj = (actual == NULL ? nil : [NSValue valueWithPointer:actual]);
   }
   if([obj isKindOfClass:[NSValue class]] && ![obj isKindOfClass:[NSNumber class]]) {
     [(NSValue *)obj set_EXP_objCType:type];
   }
-  va_end(v);
   return obj;
 }
 

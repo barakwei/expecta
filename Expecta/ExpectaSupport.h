@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-id _EXPObjectify(const char *type, ...);
+id _EXPObjectify(const char *type, void *value);
 EXPExpect *_EXP_expect(id testCase, int lineNumber, const char *fileName, EXPIdBlock actualBlock);
 
 void EXPFail(id testCase, int lineNumber, const char *fileName, NSString *message);
