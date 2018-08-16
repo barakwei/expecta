@@ -10,16 +10,19 @@
 #import "EXPMatcher.h"
 #import "EXPDefines.h"
 
+typedef BOOL (^EXPMatchBlock)(id actual);
+typedef NSString *(^EXPFailureMessageBlock)(id actual);
+
 @interface EXPBlockDefinedMatcher : NSObject <EXPMatcher> {
-  EXPBoolBlock prerequisiteBlock;
-  EXPBoolBlock matchBlock;
-  EXPStringBlock failureMessageForToBlock;
-  EXPStringBlock failureMessageForNotToBlock;
+  EXPMatchBlock prerequisiteBlock;
+  EXPMatchBlock matchBlock;
+  EXPFailureMessageBlock failureMessageForToBlock;
+  EXPFailureMessageBlock failureMessageForNotToBlock;
 }
 
-@property(nonatomic, copy) EXPBoolBlock prerequisiteBlock;
-@property(nonatomic, copy) EXPBoolBlock matchBlock;
-@property(nonatomic, copy) EXPStringBlock failureMessageForToBlock;
-@property(nonatomic, copy) EXPStringBlock failureMessageForNotToBlock;
+@property(nonatomic, copy) EXPMatchBlock prerequisiteBlock;
+@property(nonatomic, copy) EXPMatchBlock matchBlock;
+@property(nonatomic, copy) EXPFailureMessageBlock failureMessageForToBlock;
+@property(nonatomic, copy) EXPFailureMessageBlock failureMessageForNotToBlock;
 
 @end

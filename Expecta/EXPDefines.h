@@ -11,7 +11,5 @@
 
 typedef void (^EXPBasicBlock)(void);
 typedef id (^EXPIdBlock)(void);
-typedef BOOL (^EXPBoolBlock)(void);
-typedef NSString *(^EXPStringBlock)(void);
 
 #endif

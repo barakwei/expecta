@@ -102,51 +102,47 @@
   return nil;
 }
 
-- (void)applyMatcher:(id<EXPMatcher>)matcher
-{
-  id actual = [self actual];
-  [self applyMatcher:matcher to:&actual];
-}
-
-- (void)applyMatcher:(id<EXPMatcher>)matcher to:(NSObject **)actual {
-  if([*actual isKindOfClass:[EXPUnsupportedObject class]]) {
+- (void)applyMatcher:(id<EXPMatcher>)matcher {
+  id actual = self.actual;
+  
+  if([actual isKindOfClass:[EXPUnsupportedObject class]]) {
     EXPFail(self.testCase, self.lineNumber, self.fileName,
-            [NSString stringWithFormat:@"expecting a %@ is not supported", ((EXPUnsupportedObject *)*actual).type]);
+            [NSString stringWithFormat:@"expecting a %@ is not supported", ((EXPUnsupportedObject *)actual).type]);
   } else {
     BOOL failed = NO;
-    if([matcher respondsToSelector:@selector(meetsPrerequesiteFor:)] &&
-       ![matcher meetsPrerequesiteFor:*actual]) {
+    if ([matcher respondsToSelector:@selector(meetsPrerequesiteFor:)] &&
+        ![matcher meetsPrerequesiteFor:actual]) {
       failed = YES;
     } else {
       BOOL matchResult = NO;
-      if(self.asynchronous) {
+      if (self.asynchronous) {
         NSTimeInterval timeOut = self.timeout;
         NSDate *expiryDate = [NSDate dateWithTimeIntervalSinceNow:timeOut];
         while(1) {
-          matchResult = [matcher matches:*actual];
+          matchResult = [matcher matches:actual];
           failed = self.negative ? matchResult : !matchResult;
           if(!failed || ([(NSDate *)[NSDate date] compare:expiryDate] == NSOrderedDescending)) {
             break;
           }
           [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
           OSMemoryBarrier();
-          *actual = self.actual;
+          actual = self.actual;
         }
       } else {
-        matchResult = [matcher matches:*actual];
+        matchResult = [matcher matches:actual];
       }
       failed = self.negative ? matchResult : !matchResult;
     }
-    if(failed) {
+    if (failed) {
       NSString *message = nil;
 
       if(self.negative) {
         if ([matcher respondsToSelector:@selector(failureMessageForNotTo:)]) {
-          message = [matcher failureMessageForNotTo:*actual];
+          message = [matcher failureMessageForNotTo:actual];
         }
       } else {
         if ([matcher respondsToSelector:@selector(failureMessageForTo:)]) {
-          message = [matcher failureMessageForTo:*actual];
+          message = [matcher failureMessageForTo:actual];
         }
       }
       if (message == nil) {
