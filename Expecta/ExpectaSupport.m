@@ -32,7 +32,7 @@ id _EXPObjectify(const char *type, void *value) {
   } else if(strcmp(type, @encode(long long)) == 0 || strcmp(type, @encode(atomic_llong)) == 0) {
     obj = @(*(long long *)value);
   } else if(strcmp(type, @encode(short)) == 0 || strcmp(type, @encode(atomic_short)) == 0) {
-    obj = @(*(int *)value);
+    obj = @(*(short *)value);
   } else if(strcmp(type, @encode(unsigned char)) == 0 || strcmp(type, @encode(atomic_uchar)) == 0) {
     obj = @(*(unsigned char *)value);
   } else if(strcmp(type, @encode(unsigned int)) == 0 || strcmp(type, @encode(atomic_uint)) == 0) {
