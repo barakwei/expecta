@@ -203,26 +203,23 @@ EXPMatcherInterface(beKindOf, (Class expected));
 #import "EXPMatchers+beKindOf.h"
 
 EXPMatcherImplementationBegin(beKindOf, (Class expected)) {
-  BOOL actualIsNil = (actual == nil);
-  BOOL expectedIsNil = (expected == nil);
-
-  prerequisite(^BOOL {
-    return !(actualIsNil || expectedIsNil);
+  prerequisite(^BOO(id actual) {
+    return actual && expected;
     // Return `NO` if matcher should fail whether or not the result is inverted
     // using `.Not`.
   });
 
-  match(^BOOL {
+  match(^BOOL(id actual) {
     return [actual isKindOfClass:expected];
     // Return `YES` if the matcher should pass, `NO` if it should not.
     // The actual value/object is passed as `actual`.
     // Please note that primitive values will be wrapped in NSNumber/NSValue.
   });
 
-  failureMessageForTo(^NSString * {
-    if (actualIsNil)
+  failureMessageForTo(^NSString *(id actual) {
+    if (!actual)
       return @"the actual value is nil/null";
-    if (expectedIsNil)
+    if (!expected)
       return @"the expected value is nil/null";
     return [NSString
         stringWithFormat:@"expected: a kind of %@, "
@@ -231,10 +228,10 @@ EXPMatcherImplementationBegin(beKindOf, (Class expected)) {
     // Return the message to be displayed when the match function returns `YES`.
   });
 
-  failureMessageForNotTo(^NSString * {
-    if (actualIsNil)
+  failureMessageForNotTo(^NSString *(id actual) {
+    if (!actual)
       return @"the actual value is nil/null";
-    if (expectedIsNil)
+    if (!expected)
       return @"the expected value is nil/null";
     return [NSString
         stringWithFormat:@"expected: not a kind of %@, "

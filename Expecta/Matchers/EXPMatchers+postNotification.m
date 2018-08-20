@@ -24,8 +24,6 @@
 @end
 
 EXPMatcherImplementationBegin(postNotification, (id expected)){
-  BOOL actualIsNil = (actual == nil);
-  BOOL expectedIsNil = (expected == nil);
   BOOL isNotification = [expected isKindOfClass:[NSNotification class]];
   BOOL isName = [expected isKindOfClass:[NSString class]];
 
@@ -33,9 +31,9 @@ EXPMatcherImplementationBegin(postNotification, (id expected)){
   __block BOOL expectedNotificationOccurred = NO;
   __block id observer;
 
-  prerequisite(^BOOL{
+  prerequisite(^BOOL(id actual) {
     expectedNotificationOccurred = NO;
-    if (actualIsNil || expectedIsNil) return NO;
+    if (!actual || !expected) return NO;
     if (isNotification) {
       expectedName = [expected name];
     }else if(isName) {
@@ -55,29 +53,29 @@ EXPMatcherImplementationBegin(postNotification, (id expected)){
     return YES;
   });
 
-  match(^BOOL{
+  match(^BOOL(id __unused actual) {
     if(expectedNotificationOccurred) {
       [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
     return expectedNotificationOccurred;
   });
 
-  failureMessageForTo(^NSString *{
+  failureMessageForTo(^NSString *(id actual) {
     if (observer) {
       [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
-    if(actualIsNil) return @"the actual value is nil/null";
-    if(expectedIsNil) return @"the expected value is nil/null";
+    if(!actual) return @"the actual value is nil/null";
+    if(!expected) return @"the expected value is nil/null";
     if(!(isNotification || isName)) return @"the actual value is not a notification or string";
     return [NSString stringWithFormat:@"expected: %@, got: none",expectedName];
   });
 
-  failureMessageForNotTo(^NSString *{
+  failureMessageForNotTo(^NSString *(id actual) {
     if (observer) {
       [[NSNotificationCenter defaultCenter] removeObserver:observer];
     }
-    if(actualIsNil) return @"the actual value is nil/null";
-    if(expectedIsNil) return @"the expected value is nil/null";
+    if(!actual) return @"the actual value is nil/null";
+    if(!expected) return @"the expected value is nil/null";
     if(!(isNotification || isName)) return @"the actual value is not a notification or string";
     return [NSString stringWithFormat:@"expected: none, got: %@", expectedName];
   });

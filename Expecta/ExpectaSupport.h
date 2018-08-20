@@ -11,10 +11,10 @@ EXPExpect *_EXP_expect(id testCase, int lineNumber, const char *fileName, EXPIdB
 void EXPFail(id testCase, int lineNumber, const char *fileName, NSString *message);
 NSString *EXPDescribeObject(id obj);
 
-void EXP_prerequisite(EXPBoolBlock block);
-void EXP_match(EXPBoolBlock block);
-void EXP_failureMessageForTo(EXPStringBlock block);
-void EXP_failureMessageForNotTo(EXPStringBlock block);
+void EXP_prerequisite(EXPMatchBlock block);
+void EXP_match(EXPMatchBlock block);
+void EXP_failureMessageForTo(EXPFailureMessageBlock block);
+void EXP_failureMessageForNotTo(EXPFailureMessageBlock block);
 
 #if __has_feature(objc_arc)
 #define _EXP_release(x)
@@ -41,18 +41,17 @@ EXPFixCategoriesBug(EXPMatcher##matcherName##Matcher); \
 - (void(^) matcherArguments) matcherName { \
   EXPBlockDefinedMatcher *matcher = [[EXPBlockDefinedMatcher alloc] init]; \
   [[[NSThread currentThread] threadDictionary] setObject:matcher forKey:@"EXP_currentMatcher"]; \
-  __block id actual = self.actual; \
-  __block void (^prerequisite)(EXPBoolBlock block) = ^(EXPBoolBlock block) { EXP_prerequisite(block); }; \
-  __block void (^match)(EXPBoolBlock block) = ^(EXPBoolBlock block) { EXP_match(block); }; \
-  __block void (^failureMessageForTo)(EXPStringBlock block) = ^(EXPStringBlock block) { EXP_failureMessageForTo(block); }; \
-  __block void (^failureMessageForNotTo)(EXPStringBlock block) = ^(EXPStringBlock block) { EXP_failureMessageForNotTo(block); }; \
+  __block void (^prerequisite)(EXPMatchBlock block) = ^(EXPMatchBlock block) { EXP_prerequisite(block); }; \
+  __block void (^match)(EXPMatchBlock block) = ^(EXPMatchBlock block) { EXP_match(block); }; \
+  __block void (^failureMessageForTo)(EXPFailureMessageBlock block) = ^(EXPFailureMessageBlock block) { EXP_failureMessageForTo(block); }; \
+  __block void (^failureMessageForNotTo)(EXPFailureMessageBlock block) = ^(EXPFailureMessageBlock block) { EXP_failureMessageForNotTo(block); }; \
   prerequisite(nil); match(nil); failureMessageForTo(nil); failureMessageForNotTo(nil); \
   void (^matcherBlock) matcherArguments = [^ matcherArguments { \
     {
 
 #define _EXPMatcherImplementationEnd \
     } \
-    [self applyMatcher:matcher to:&actual]; \
+    [self applyMatcher:matcher]; \
     [[[NSThread currentThread] threadDictionary] removeObjectForKey:@"EXP_currentMatcher"]; \
   } copy]; \
   _EXP_release(matcher); \
