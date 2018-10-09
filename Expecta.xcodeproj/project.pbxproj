@@ -602,69 +602,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		908379E41A8B9EE1009844DA /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				908379DC1A8B98E8009844DA /* Info.plist */,
-			);
-			name = Support;
-			sourceTree = "<group>";
-		};
-		E9ACDF0113B2DD520010F4D7 = {
-			isa = PBXGroup;
-			children = (
-				E9ACDF3C13B2DDB00010F4D7 /* Expecta */,
-				E9ACDF7213B2DEB70010F4D7 /* Tests */,
-				E9ACDF0D13B2DD520010F4D7 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		E9ACDF0D13B2DD520010F4D7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E9ACDF0C13B2DD520010F4D7 /* libExpecta.a */,
-				E93067CE13B2E6D100EA26FF /* libExpecta.a */,
-				E93067DA13B2E6D100EA26FF /* libExpecta-iOSTests.xctest */,
-				9C4416F917FF3F4A00978F09 /* libExpectaTests.xctest */,
-				908379111A8B9660009844DA /* Expecta.framework */,
-				908379791A8B972C009844DA /* Expecta.framework */,
-				3A0A598C1AD4418C003DA3E4 /* ExpectaTests.xctest */,
-				3A0A59BF1AD441CB003DA3E4 /* Expecta-iOSTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E9ACDF3C13B2DDB00010F4D7 /* Expecta */ = {
-			isa = PBXGroup;
-			children = (
-				A30575611520BDCD00DA19BD /* EXPBlockDefinedMatcher.h */,
-				A30575621520BDCE00DA19BD /* EXPBlockDefinedMatcher.m */,
-				A30575671520BEE200DA19BD /* EXPDefines.h */,
-				E1EB1BBF13BEA1BE00E4C93B /* EXPDoubleTuple.h */,
-				E1EB1BC013BEA1BE00E4C93B /* EXPDoubleTuple.m */,
-				E9ACDF1713B2DD520010F4D7 /* Expecta-Prefix.pch */,
-				908379DD1A8B990A009844DA /* Expecta.h */,
-				E9ACDF3F13B2DDC60010F4D7 /* ExpectaObject.h */,
-				E9AA7A5C13CC874F005884E8 /* ExpectaObject.m */,
-				E9685DBB13B5E39300ADF2D7 /* ExpectaSupport.h */,
-				E9685DBE13B5E5DA00ADF2D7 /* ExpectaSupport.m */,
-				E9ACDF3D13B2DDC60010F4D7 /* EXPExpect.h */,
-				E9ACDF3E13B2DDC60010F4D7 /* EXPExpect.m */,
-				E1EB1BC113BEA1BE00E4C93B /* EXPFloatTuple.h */,
-				E1EB1BC213BEA1BE00E4C93B /* EXPFloatTuple.m */,
-				A305755D1520BCCB00DA19BD /* EXPMatcher.h */,
-				E9ACDF4113B2DDC60010F4D7 /* EXPUnsupportedObject.h */,
-				E9ACDF4213B2DDC60010F4D7 /* EXPUnsupportedObject.m */,
-				E9ACDF4313B2DDC60010F4D7 /* Matchers */,
-				E9ACDF5513B2DDC60010F4D7 /* NSObject+Expecta.h */,
-				E9ACDF5613B2DDC60010F4D7 /* NSValue+Expecta.h */,
-				E9ACDF5713B2DDC60010F4D7 /* NSValue+Expecta.m */,
-				908379E41A8B9EE1009844DA /* Support */,
-			);
-			path = Expecta;
-			sourceTree = "<group>";
-		};
-		E9ACDF4313B2DDC60010F4D7 /* Matchers */ = {
+		88183A88216CAA8900047E67 /* Matchers */ = {
 			isa = PBXGroup;
 			children = (
 				E9ACDF4413B2DDC60010F4D7 /* EXPMatcherHelpers.h */,
@@ -721,7 +659,69 @@
 				5E14C13F1AE2E254008E6F55 /* EXPMatchers+match.h */,
 				5E14C1401AE2E254008E6F55 /* EXPMatchers+match.m */,
 			);
-			path = Matchers;
+			name = Matchers;
+			sourceTree = "<group>";
+		};
+		908379E41A8B9EE1009844DA /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				908379DC1A8B98E8009844DA /* Info.plist */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
+		E9ACDF0113B2DD520010F4D7 = {
+			isa = PBXGroup;
+			children = (
+				E9ACDF3C13B2DDB00010F4D7 /* Expecta */,
+				E9ACDF7213B2DEB70010F4D7 /* Tests */,
+				E9ACDF0D13B2DD520010F4D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E9ACDF0D13B2DD520010F4D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9ACDF0C13B2DD520010F4D7 /* libExpecta.a */,
+				E93067CE13B2E6D100EA26FF /* libExpecta.a */,
+				E93067DA13B2E6D100EA26FF /* libExpecta-iOSTests.xctest */,
+				9C4416F917FF3F4A00978F09 /* libExpectaTests.xctest */,
+				908379111A8B9660009844DA /* Expecta.framework */,
+				908379791A8B972C009844DA /* Expecta.framework */,
+				3A0A598C1AD4418C003DA3E4 /* ExpectaTests.xctest */,
+				3A0A59BF1AD441CB003DA3E4 /* Expecta-iOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9ACDF3C13B2DDB00010F4D7 /* Expecta */ = {
+			isa = PBXGroup;
+			children = (
+				A30575611520BDCD00DA19BD /* EXPBlockDefinedMatcher.h */,
+				A30575621520BDCE00DA19BD /* EXPBlockDefinedMatcher.m */,
+				A30575671520BEE200DA19BD /* EXPDefines.h */,
+				E1EB1BBF13BEA1BE00E4C93B /* EXPDoubleTuple.h */,
+				E1EB1BC013BEA1BE00E4C93B /* EXPDoubleTuple.m */,
+				E9ACDF1713B2DD520010F4D7 /* Expecta-Prefix.pch */,
+				908379DD1A8B990A009844DA /* Expecta.h */,
+				E9ACDF3F13B2DDC60010F4D7 /* ExpectaObject.h */,
+				E9AA7A5C13CC874F005884E8 /* ExpectaObject.m */,
+				E9685DBB13B5E39300ADF2D7 /* ExpectaSupport.h */,
+				E9685DBE13B5E5DA00ADF2D7 /* ExpectaSupport.m */,
+				E9ACDF3D13B2DDC60010F4D7 /* EXPExpect.h */,
+				E9ACDF3E13B2DDC60010F4D7 /* EXPExpect.m */,
+				E1EB1BC113BEA1BE00E4C93B /* EXPFloatTuple.h */,
+				E1EB1BC213BEA1BE00E4C93B /* EXPFloatTuple.m */,
+				A305755D1520BCCB00DA19BD /* EXPMatcher.h */,
+				E9ACDF4113B2DDC60010F4D7 /* EXPUnsupportedObject.h */,
+				E9ACDF4213B2DDC60010F4D7 /* EXPUnsupportedObject.m */,
+				88183A88216CAA8900047E67 /* Matchers */,
+				E9ACDF5513B2DDC60010F4D7 /* NSObject+Expecta.h */,
+				E9ACDF5613B2DDC60010F4D7 /* NSValue+Expecta.h */,
+				E9ACDF5713B2DDC60010F4D7 /* NSValue+Expecta.m */,
+				908379E41A8B9EE1009844DA /* Support */,
+			);
+			path = Expecta;
 			sourceTree = "<group>";
 		};
 		E9ACDF7213B2DEB70010F4D7 /* Tests */ = {
